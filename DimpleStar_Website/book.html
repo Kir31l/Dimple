@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Now — Dimple Star Transport</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .book-layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; }
+    @media (max-width: 900px) { .book-layout { grid-template-columns: 1fr; } }
+
+    .step-bar { display:flex; gap:0; margin-bottom:32px; }
+    .step { flex:1; text-align:center; padding:12px 8px; font-size:13px; font-weight:600; color:var(--gray); border-bottom:3px solid #EAEDF3; transition:.2s; }
+    .step.active { color:var(--navy); border-bottom-color:var(--gold); }
+    .step.done   { color:var(--gold-dk); border-bottom-color:var(--gold); }
+    .step span { display:block; font-size:11px; font-weight:400; margin-top:2px; opacity:.7; }
+
+    .form-section { display:none; }
+    .form-section.visible { display:block; }
+
+    .route-option {
+      border:2px solid #EAEDF3; border-radius:12px; padding:18px 20px;
+      cursor:pointer; transition:.2s; margin-bottom:12px; display:flex; gap:16px; align-items:center;
+    }
+    .route-option:hover { border-color:var(--gold); background:rgba(232,160,32,.04); }
+    .route-option.selected { border-color:var(--gold); background:rgba(232,160,32,.08); }
+    .route-option input[type=radio] { display:none; }
+    .route-time { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--navy); min-width:80px; }
+    .route-meta { flex:1; }
+    .route-meta small { color:var(--gray); font-size:13px; }
+    .route-price { font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--gold-dk); }
+
+    .seat-grid {
+      display:grid; grid-template-columns: repeat(4, 1fr);
+      gap:8px; margin:20px 0;
+    }
+    .seat {
+      aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+      border:2px solid #DDE0E8; border-radius:8px;
+      font-size:12px; font-weight:600; color:var(--gray);
+      cursor:pointer; transition:.2s;
+      background: var(--white);
+    }
+    .seat:hover:not(.taken) { border-color:var(--gold); color:var(--navy); background:rgba(232,160,32,.08); }
+    .seat.selected { border-color:var(--gold); background:var(--gold); color:var(--navy); }
+    .seat.taken { background:#F0F0F0; color:#ccc; cursor:not-allowed; border-color:#E8E8E8; }
+    .seat-legend { display:flex; gap:20px; font-size:12px; color:var(--gray); margin-bottom:12px; flex-wrap:wrap; }
+    .seat-legend span { display:flex; align-items:center; gap:6px; }
+    .leg-box { width:14px; height:14px; border-radius:4px; border:2px solid; }
+
+    .summary-box { background:var(--navy); color:var(--white); border-radius:14px; padding:28px; position:sticky; top:90px; }
+    .summary-box h3 { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; margin-bottom:20px; color:var(--gold-lt); }
+    .sum-row { display:flex; justify-content:space-between; font-size:14px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.1); }
+    .sum-row:last-of-type { border-bottom:none; }
+    .sum-label { color:rgba(255,255,255,.6); }
+    .sum-val { font-weight:500; }
+    .sum-total { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--gold-lt); margin-top:16px; }
+
+    .confirmation-box { text-align:center; padding:40px 20px; }
+    .conf-icon { font-size:64px; margin-bottom:16px; }
+    .conf-ticket { background:var(--navy); border-radius:14px; padding:28px; text-align:left; margin-top:24px; color:var(--white); }
+    .conf-ticket .ticket-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.1); font-size:14px; }
+    .conf-ticket .ticket-row:last-child { border-bottom:none; }
+    .conf-ticket .t-label { color:rgba(255,255,255,.55); }
+    .conf-ticket .ticket-num { font-family:'Syne',sans-serif; font-size:28px; font-weight:800; color:var(--gold-lt); margin-bottom:16px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <div class="brand-icon">🚌</div>
+    <div class="brand-name">Dimple<span>Star</span></div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="terminal.html">Terminals</a>
+    <a href="routeschedule.html">Routes / Schedules</a>
+    <a href="contact.html">Contact</a>
+    <a href="book.html" class="book-btn active">Book Now</a>
+  </nav>
+  <div class="nav-auth" id="nav-auth"></div>
+</header>
+
+<section class="page-hero">
+  <h1>Book Your <span class="accent">Ticket</span></h1>
+  <p>Select your route, choose your seat, and confirm your booking instantly.</p>
+</section>
+
+<div class="main-content">
+  <div class="book-layout">
+    <!-- LEFT PANEL -->
+    <div class="card">
+      <!-- Step Bar -->
+      <div class="step-bar">
+        <div class="step active" id="tab1">1. Route<span>Select trip</span></div>
+        <div class="step" id="tab2">2. Details<span>Passenger info</span></div>
+        <div class="step" id="tab3">3. Seats<span>Choose seat</span></div>
+        <div class="step" id="tab4">4. Confirm<span>Done!</span></div>
+      </div>
+
+      <!-- STEP 1: Route -->
+      <div class="form-section visible" id="step1">
+        <h2>Select Your Route</h2>
+        <div class="field">
+          <label>Trip Type</label>
+          <div style="display:flex;gap:12px;">
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:15px;color:var(--text);font-weight:400;cursor:pointer;">
+              <input type="radio" name="way" value="1" checked id="oneWay"> One Way
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:15px;color:var(--text);font-weight:400;cursor:pointer;">
+              <input type="radio" name="way" value="2" id="twoWay"> Two Way
+            </label>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field">
+            <label>Origin</label>
+            <select id="sel-origin" onchange="filterRoutes()">
+              <option value="">All Origins</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Bus Type</label>
+            <select id="sel-type" onchange="filterRoutes()">
+              <option value="">Any Type</option>
+              <option>Air Conditioned</option>
+              <option>Ordinary</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Departure Date</label>
+            <input type="date" id="dep-date" min="" />
+          </div>
+          <div class="field" id="return-field" style="display:none;">
+            <label>Return Date</label>
+            <input type="date" id="ret-date" />
+          </div>
+        </div>
+
+        <div id="route-list"></div>
+        <div id="route-error" class="alert alert-error">Please select a route to continue.</div>
+        <button class="btn btn-primary" onclick="goStep(2)" style="margin-top:8px;">Next: Passenger Details →</button>
+      </div>
+
+      <!-- STEP 2: Details -->
+      <div class="form-section" id="step2">
+        <h2>Passenger Details</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field">
+            <label>First Name</label>
+            <input type="text" id="p-fname" placeholder="Juan" />
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            <input type="text" id="p-lname" placeholder="dela Cruz" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="p-email" placeholder="juan@example.com" />
+        </div>
+        <div class="field">
+          <label>Mobile Number</label>
+          <input type="text" id="p-mobile" placeholder="09XX XXX XXXX" />
+        </div>
+        <div class="field">
+          <label>Address</label>
+          <input type="text" id="p-address" placeholder="Street, City, Province" />
+        </div>
+        <div class="field">
+          <label>Number of Passengers</label>
+          <input type="number" id="p-count" value="1" min="1" max="10" onchange="updateSeatCount()" />
+        </div>
+        <div id="details-error" class="alert alert-error">Please fill in all required fields.</div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(3)">Next: Choose Seats →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Seats -->
+      <div class="form-section" id="step3">
+        <h2>Choose Your Seat(s)</h2>
+        <p style="font-size:14px;color:var(--gray);margin-bottom:16px;">Select <span id="need-seats" style="font-weight:600;color:var(--navy);">1</span> seat(s).</p>
+        <div class="seat-legend">
+          <span><span class="leg-box" style="background:#fff;border-color:#DDE0E8;"></span> Available</span>
+          <span><span class="leg-box" style="background:var(--gold);border-color:var(--gold);"></span> Selected</span>
+          <span><span class="leg-box" style="background:#F0F0F0;border-color:#E8E8E8;"></span> Taken</span>
+        </div>
+        <div class="seat-grid" id="seat-grid"></div>
+        <div id="seat-error" class="alert alert-error">Please select the correct number of seats.</div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-outline" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Confirm Booking →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Confirmation -->
+      <div class="form-section" id="step4">
+        <div class="confirmation-box">
+          <div class="conf-icon">🎉</div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--navy);">Booking Confirmed!</h2>
+          <p style="color:var(--gray);margin-top:8px;">Your ticket has been reserved. Please arrive 30 minutes before departure.</p>
+          <div class="conf-ticket">
+            <div class="ticket-num" id="conf-ticketnum">TKT-000000</div>
+            <div id="conf-details"></div>
+          </div>
+          <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="window.print()">🖨️ Print Ticket</button>
+            <a href="index.html" class="btn btn-outline">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Summary -->
+    <div>
+      <div class="summary-box" id="summary-box">
+        <h3>Booking Summary</h3>
+        <div id="sum-content">
+          <p style="color:rgba(255,255,255,.5);font-size:14px;">Select a route to see your summary.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; <strong>Dimple Star Transport</strong> — Block 1 Lot 10, Southpoint Subd., Brgy Banay-Banay, Cabuyao, Laguna &nbsp;|&nbsp; 0929 209 0712</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+  // Preselect date
+  const dateIn = document.getElementById('dep-date');
+  dateIn.min = new Date().toISOString().split('T')[0];
+  dateIn.value = dateIn.min;
+
+  // Populate origins
+  const origins = [...new Set(ROUTES.map(r => r.origin.trim()))].sort();
+  const oSel = document.getElementById('sel-origin');
+  origins.forEach(o => { const opt = document.createElement('option'); opt.value = opt.textContent = o; oSel.appendChild(opt); });
+
+  // Two-way toggle
+  document.querySelectorAll('[name=way]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('return-field').style.display = r.value === '2' ? 'block' : 'none';
+    });
+  });
+
+  // Pre-select from URL
+  const params = new URLSearchParams(location.search);
+  const preBusid = params.get('busid');
+
+  let selectedRoute = null;
+  let selectedSeats = [];
+  const TAKEN_SEATS = [7,8,9,10,11,12,13]; // from DB regs table
+
+  function filterRoutes() {
+    const origin = document.getElementById('sel-origin').value.trim();
+    const type   = document.getElementById('sel-type').value;
+    const filtered = ROUTES.filter(r => {
+      if (origin && r.origin.trim() !== origin) return false;
+      if (type   && r.bustype !== type) return false;
+      return true;
+    });
+    renderRouteList(filtered);
+  }
+
+  function renderRouteList(list) {
+    const el = document.getElementById('route-list');
+    if (!list.length) { el.innerHTML = '<p style="color:var(--gray);padding:20px 0;">No routes match your filters.</p>'; return; }
+    el.innerHTML = list.map(r => `
+      <label class="route-option ${selectedRoute && selectedRoute.busid === r.busid ? 'selected' : ''}" onclick="selectRoute(${r.busid})">
+        <input type="radio" name="route" value="${r.busid}" ${selectedRoute && selectedRoute.busid === r.busid ? 'checked' : ''} />
+        <div class="route-time">${r.time}</div>
+        <div class="route-meta">
+          <strong>${r.origin} → ${r.destination}</strong><br>
+          <small><span class="badge ${r.bustype==='Air Conditioned'?'badge-ac':'badge-ord'}">${r.bustype}</span></small>
+        </div>
+        <div class="route-price">₱${r.price}</div>
+      </label>
+    `).join('');
+  }
+
+  function selectRoute(busid) {
+    selectedRoute = ROUTES.find(r => r.busid === busid);
+    document.querySelectorAll('.route-option').forEach(el => el.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const count = parseInt(document.getElementById('p-count')?.value || 1);
+    if (!selectedRoute) return;
+    const total = selectedRoute.price * count;
+    document.getElementById('sum-content').innerHTML = `
+      <div class="sum-row"><span class="sum-label">Route</span><span class="sum-val">${selectedRoute.origin} → ${selectedRoute.destination}</span></div>
+      <div class="sum-row"><span class="sum-label">Departure</span><span class="sum-val">${selectedRoute.time}</span></div>
+      <div class="sum-row"><span class="sum-label">Bus Type</span><span class="sum-val">${selectedRoute.bustype}</span></div>
+      <div class="sum-row"><span class="sum-label">Passengers</span><span class="sum-val">${count}</span></div>
+      <div class="sum-row"><span class="sum-label">Price / pax</span><span class="sum-val">₱${selectedRoute.price}</span></div>
+      <div class="sum-total">Total: ₱${total.toLocaleString()}</div>
+    `;
+  }
+
+  function updateSeatCount() { updateSummary(); document.getElementById('need-seats').textContent = document.getElementById('p-count').value; }
+
+  function buildSeatGrid() {
+    const grid = document.getElementById('seat-grid');
+    grid.innerHTML = '';
+    selectedSeats = [];
+    for (let i = 1; i <= 40; i++) {
+      const div = document.createElement('div');
+      div.className = 'seat' + (TAKEN_SEATS.includes(i) ? ' taken' : '');
+      div.textContent = i;
+      if (!TAKEN_SEATS.includes(i)) div.onclick = () => toggleSeat(i, div);
+      grid.appendChild(div);
+    }
+  }
+
+  function toggleSeat(num, el) {
+    const need = parseInt(document.getElementById('p-count').value);
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      selectedSeats = selectedSeats.filter(s => s !== num);
+    } else {
+      if (selectedSeats.length >= need) {
+        alert(`You can only select ${need} seat(s). Deselect one first.`);
+        return;
+      }
+      el.classList.add('selected');
+      selectedSeats.push(num);
+    }
+  }
+
+  function goStep(n) {
+    // Validate
+    if (n === 2 && !selectedRoute) {
+      document.getElementById('route-error').classList.add('show'); return;
+    }
+    document.getElementById('route-error')?.classList.remove('show');
+
+    if (n === 3) {
+      const fname = document.getElementById('p-fname').value.trim();
+      const lname = document.getElementById('p-lname').value.trim();
+      const email = document.getElementById('p-email').value.trim();
+      const mobile = document.getElementById('p-mobile').value.trim();
+      if (!fname || !lname || !email || !mobile) {
+        document.getElementById('details-error').classList.add('show'); return;
+      }
+      document.getElementById('details-error').classList.remove('show');
+      document.getElementById('need-seats').textContent = document.getElementById('p-count').value;
+      buildSeatGrid();
+    }
+
+    if (n === 4) {
+      const need = parseInt(document.getElementById('p-count').value);
+      if (selectedSeats.length !== need) {
+        document.getElementById('seat-error').classList.add('show'); return;
+      }
+      document.getElementById('seat-error').classList.remove('show');
+      // Save & show confirmation
+      const booking = {
+        name: document.getElementById('p-fname').value + ' ' + document.getElementById('p-lname').value,
+        email: document.getElementById('p-email').value,
+        mobile: document.getElementById('p-mobile').value,
+        address: document.getElementById('p-address').value,
+        bustype: selectedRoute.bustype,
+        origin: selectedRoute.origin,
+        destination: selectedRoute.destination,
+        time: selectedRoute.time,
+        price: selectedRoute.price * need,
+        seats: selectedSeats.join(', '),
+        date: document.getElementById('dep-date').value
+      };
+      const ticketNum = saveBooking(booking);
+      document.getElementById('conf-ticketnum').textContent = 'TKT-' + ticketNum;
+      document.getElementById('conf-details').innerHTML = `
+        <div class="ticket-row"><span class="t-label">Passenger</span><span>${booking.name}</span></div>
+        <div class="ticket-row"><span class="t-label">Route</span><span>${booking.origin} → ${booking.destination}</span></div>
+        <div class="ticket-row"><span class="t-label">Departure</span><span>${booking.date} &nbsp; ${booking.time}</span></div>
+        <div class="ticket-row"><span class="t-label">Bus Type</span><span>${booking.bustype}</span></div>
+        <div class="ticket-row"><span class="t-label">Seats</span><span>${booking.seats}</span></div>
+        <div class="ticket-row"><span class="t-label">Total Fare</span><span style="color:var(--gold-lt);font-weight:600;">₱${booking.price.toLocaleString()}</span></div>
+      `;
+    }
+
+    // Switch steps
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('step'+i).classList.toggle('visible', i === n);
+      const tab = document.getElementById('tab'+i);
+      tab.classList.remove('active','done');
+      if (i === n) tab.classList.add('active');
+      if (i < n)  tab.classList.add('done');
+    }
+    updateSummary();
+  }
+
+  // Init
+  filterRoutes();
+  if (preBusid) {
+    const r = ROUTES.find(r => r.busid == preBusid);
+    if (r) {
+      selectedRoute = r;
+      document.getElementById('sel-origin').value = r.origin.trim();
+      document.getElementById('sel-type').value = r.bustype;
+      filterRoutes();
+      updateSummary();
+    }
+  }
+  renderNavAuth();
+</script>
+</body>
+</html>

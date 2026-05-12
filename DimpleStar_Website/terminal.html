@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminals — Dimple Star Transport</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .terminal-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+    .terminal-card {
+      background:var(--white); border-radius:14px; padding:28px; box-shadow:var(--shadow);
+      border-top:4px solid var(--gold); transition:.2s;
+    }
+    .terminal-card:hover { transform:translateY(-3px); box-shadow:0 12px 36px rgba(11,31,58,.15); }
+    .t-header { display:flex; gap:14px; align-items:flex-start; margin-bottom:16px; }
+    .t-icon { width:48px;height:48px; background:rgba(232,160,32,.12); border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:22px; flex-shrink:0; }
+    .t-header h3 { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; color:var(--navy); }
+    .t-header p  { font-size:13px; color:var(--gray); margin-top:3px; }
+    .t-details { font-size:14px; color:#555; line-height:1.7; border-top:1px solid #EAEDF3; padding-top:14px; }
+    .t-details strong { color:var(--navy); }
+    .t-routes { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+    .t-routes span { background:#F0F4FF; color:#2A56C6; font-size:12px; font-weight:500; padding:3px 10px; border-radius:20px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <div class="brand-icon">🚌</div>
+    <div class="brand-name">Dimple<span>Star</span></div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="terminal.html" class="active">Terminals</a>
+    <a href="routeschedule.html">Routes / Schedules</a>
+    <a href="contact.html">Contact</a>
+    <a href="book.html" class="book-btn">Book Now</a>
+  </nav>
+  <div class="nav-auth" id="nav-auth"></div>
+</header>
+
+<section class="page-hero">
+  <h1>Our <span class="accent">Terminals</span></h1>
+  <p>Find your nearest boarding and alighting point across Metro Manila and Mindoro.</p>
+</section>
+
+<div class="main-content">
+  <div class="terminal-grid">
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🏛️</div>
+        <div>
+          <h3>San Lazaro Bus Terminal</h3>
+          <p>Manila (Main Terminal)</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Lacson Ave, Santa Mesa, Manila<br>
+        <strong>Hours:</strong> 4:00 AM – 12:00 AM<br>
+        <strong>Facilities:</strong> Ticketing booth, waiting lounge, restrooms, ATM nearby<br>
+        <div class="t-routes">
+          <span>→ San Jose</span><span>→ Mindoro</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🛍️</div>
+        <div>
+          <h3>Ali Mall Cubao</h3>
+          <p>Quezon City</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Araneta Center, Cubao, Quezon City<br>
+        <strong>Hours:</strong> 8:00 AM – 8:00 PM<br>
+        <strong>Facilities:</strong> Ticketing, mall access, food court<br>
+        <div class="t-routes">
+          <span>→ San Jose (AC)</span><span>→ San Jose (Ordinary)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🌆</div>
+        <div>
+          <h3>Espana Terminal</h3>
+          <p>Manila</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Espana Blvd., Sampaloc, Manila<br>
+        <strong>Hours:</strong> 4:00 AM – 10:00 PM<br>
+        <strong>Facilities:</strong> Ticketing, street-level boarding<br>
+        <div class="t-routes">
+          <span>4:30am</span><span>5:30am</span><span>12:00am</span><span>4pm</span><span>8pm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🛣️</div>
+        <div>
+          <h3>Alabang Terminal</h3>
+          <p>Muntinlupa City</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Alabang Bus Terminal, Muntinlupa<br>
+        <strong>Hours:</strong> 5:00 AM – 11:00 PM<br>
+        <strong>Facilities:</strong> Ticketing, waiting area, restrooms<br>
+        <div class="t-routes">
+          <span>6am</span><span>7am</span><span>2pm</span><span>6pm</span><span>10pm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🏙️</div>
+        <div>
+          <h3>Pasay Terminal</h3>
+          <p>Pasay City</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Taft Avenue, Pasay City<br>
+        <strong>Hours:</strong> 4:00 AM – 6:00 PM<br>
+        <strong>Facilities:</strong> Ticketing, near MRT/LRT station<br>
+        <div class="t-routes">
+          <span>5am</span><span>6am</span><span>1pm</span><span>3pm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🌿</div>
+        <div>
+          <h3>Cabuyao Terminal</h3>
+          <p>Laguna (Head Office)</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> Block 1 Lot 10, Southpoint Subd., Brgy Banay-Banay, Cabuyao, Laguna<br>
+        <strong>Hours:</strong> 7:00 AM – 6:00 PM<br>
+        <strong>Phone:</strong> 0929 209 0712<br>
+        <div class="t-routes">
+          <span>8am</span><span>9am</span><span>4pm</span><span>8pm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="t-header">
+        <div class="t-icon">🌊</div>
+        <div>
+          <h3>San Jose Terminal</h3>
+          <p>Oriental Mindoro (End Point)</p>
+        </div>
+      </div>
+      <div class="t-details">
+        <strong>Address:</strong> San Jose, Occidental Mindoro<br>
+        <strong>Hours:</strong> Open upon bus arrival<br>
+        <strong>Note:</strong> Main destination terminus for all Mindoro-bound routes<br>
+        <div class="t-routes">
+          <span>All incoming routes</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; <strong>Dimple Star Transport</strong> — Block 1 Lot 10, Southpoint Subd., Brgy Banay-Banay, Cabuyao, Laguna &nbsp;|&nbsp; 0929 209 0712</p>
+</footer>
+
+<script src="data.js"></script>
+<script>renderNavAuth();</script>
+</body>
+</html>

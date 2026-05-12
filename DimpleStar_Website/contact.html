@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — Dimple Star Transport</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-layout { display:grid; grid-template-columns:1fr 420px; gap:28px; }
+    @media (max-width:860px) { .contact-layout { grid-template-columns:1fr; } }
+    .info-card { background:var(--navy); color:var(--white); border-radius:14px; padding:36px; box-shadow:var(--shadow); }
+    .info-card h3 { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; color:var(--gold-lt); }
+    .info-item { display:flex; gap:16px; margin-bottom:24px; align-items:flex-start; }
+    .info-icon { width:42px;height:42px; background:rgba(232,160,32,.15); border-radius:10px; display:flex;align-items:center;justify-content:center; font-size:18px; flex-shrink:0; }
+    .info-item h4 { font-weight:600; font-size:14px; color:var(--gold-lt); margin-bottom:4px; }
+    .info-item p { font-size:14px; color:rgba(255,255,255,.7); line-height:1.6; }
+    .form-card { background:var(--white); border-radius:14px; padding:36px; box-shadow:var(--shadow); }
+    .form-card h3 { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--navy); margin-bottom:24px; }
+    textarea { min-height:120px; resize:vertical; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <div class="brand-icon">🚌</div>
+    <div class="brand-name">Dimple<span>Star</span></div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="terminal.html">Terminals</a>
+    <a href="routeschedule.html">Routes / Schedules</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="book.html" class="book-btn">Book Now</a>
+  </nav>
+  <div class="nav-auth" id="nav-auth"></div>
+</header>
+
+<section class="page-hero">
+  <h1>Contact <span class="accent">Us</span></h1>
+  <p>We'd love to hear from you. Reach out for inquiries, feedback, or assistance.</p>
+</section>
+
+<div class="main-content">
+  <div class="contact-layout">
+
+    <!-- Info -->
+    <div class="info-card">
+      <h3>Get in Touch</h3>
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div>
+          <h4>Head Office</h4>
+          <p>Block 1 Lot 10, Southpoint Subd.<br>Brgy Banay-Banay, Cabuyao, Laguna</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <div>
+          <h4>Phone</h4>
+          <p>0929 209 0712</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">⏰</div>
+        <div>
+          <h4>Office Hours</h4>
+          <p>Monday – Saturday<br>7:00 AM – 6:00 PM</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🚏</div>
+        <div>
+          <h4>Main Terminal</h4>
+          <p>San Lazaro Bus Terminal<br>Manila (northbound departures)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-card">
+      <h3>Send a Message</h3>
+      <div id="msg-success" class="alert alert-success">Thank you! Your message has been sent.</div>
+      <div id="msg-error" class="alert alert-error">Please fill in all required fields.</div>
+      <div class="field">
+        <label>Your Name *</label>
+        <input type="text" id="c-name" placeholder="Juan dela Cruz" />
+      </div>
+      <div class="field">
+        <label>Email Address *</label>
+        <input type="email" id="c-email" placeholder="juan@example.com" />
+      </div>
+      <div class="field">
+        <label>Subject *</label>
+        <input type="text" id="c-subject" placeholder="Booking inquiry, Lost item, etc." />
+      </div>
+      <div class="field">
+        <label>Message *</label>
+        <textarea id="c-message" placeholder="Type your message here..."></textarea>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="sendMessage()">Send Message</button>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; <strong>Dimple Star Transport</strong> — Block 1 Lot 10, Southpoint Subd., Brgy Banay-Banay, Cabuyao, Laguna &nbsp;|&nbsp; 0929 209 0712</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+  function sendMessage() {
+    const name    = document.getElementById('c-name').value.trim();
+    const email   = document.getElementById('c-email').value.trim();
+    const subject = document.getElementById('c-subject').value.trim();
+    const message = document.getElementById('c-message').value.trim();
+    const err = document.getElementById('msg-error');
+    const ok  = document.getElementById('msg-success');
+    err.classList.remove('show'); ok.classList.remove('show');
+    if (!name || !email || !subject || !message) { err.classList.add('show'); return; }
+    // Simulate send — store in sessionStorage as mock
+    const msgs = JSON.parse(sessionStorage.getItem('ds_messages') || '[]');
+    msgs.push({ name, email, subject, message, at: new Date().toISOString() });
+    sessionStorage.setItem('ds_messages', JSON.stringify(msgs));
+    ok.classList.add('show');
+    document.getElementById('c-name').value = '';
+    document.getElementById('c-email').value = '';
+    document.getElementById('c-subject').value = '';
+    document.getElementById('c-message').value = '';
+  }
+  renderNavAuth();
+</script>
+</body>
+</html>

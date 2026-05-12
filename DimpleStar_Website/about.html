@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Dimple Star Transport</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+    @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-card { background: var(--white); border-radius: 14px; padding: 32px; box-shadow: var(--shadow); }
+    .about-card .icon { font-size: 32px; margin-bottom: 14px; }
+    .about-card h3 { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--navy); margin-bottom:12px; }
+    .about-card p { font-size:15px; color:#555; line-height:1.75; }
+    .history-card { background: var(--white); border-radius: 14px; padding: 36px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .history-card h2 { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+    .history-card .tag { display:inline-block; background:rgba(232,160,32,.15); color:var(--gold-dk); font-size:12px; font-weight:600; padding:4px 12px; border-radius:20px; margin-bottom:18px; }
+    .history-card p { font-size:15px; color:#555; line-height:1.8; margin-bottom:12px; }
+    .timeline { display:flex; gap:0; flex-direction:column; margin-top:16px; }
+    .tl-item { display:flex; gap:20px; padding-bottom:28px; position:relative; }
+    .tl-item::before { content:''; position:absolute; left:17px; top:36px; bottom:0; width:2px; background:#EAEDF3; }
+    .tl-item:last-child::before { display:none; }
+    .tl-dot { width:36px; height:36px; border-radius:50%; background:var(--gold); color:var(--navy); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0; margin-top:2px; }
+    .tl-body h4 { font-family:'Syne',sans-serif; font-weight:700; color:var(--navy); font-size:15px; margin-bottom:4px; }
+    .tl-body p { font-size:14px; color:var(--gray); line-height:1.6; }
+    .photo-frame {
+      width:100%; border-radius:12px; overflow:hidden;
+      background: var(--navy);
+      height: 220px;
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(255,255,255,.5);
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <div class="brand-icon">🚌</div>
+    <div class="brand-name">Dimple<span>Star</span></div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About Us</a>
+    <a href="terminal.html">Terminals</a>
+    <a href="routeschedule.html">Routes / Schedules</a>
+    <a href="contact.html">Contact</a>
+    <a href="book.html" class="book-btn">Book Now</a>
+  </nav>
+  <div class="nav-auth" id="nav-auth"></div>
+</header>
+
+<section class="page-hero">
+  <h1>About <span class="accent">Dimple Star</span> Transport</h1>
+  <p>Over 30 years of serving Filipino commuters with pride and reliability.</p>
+</section>
+
+<div class="main-content">
+
+  <!-- History Card -->
+  <div class="history-card">
+    <div class="photo-frame">🚌</div>
+    <span class="tag">📸 Est. 1993 · Napat Transit</span>
+    <h2>Our Story</h2>
+    <p>
+      Dimple Star Transport traces its roots to <strong>Napat Transit</strong>, founded in 1993. In October of that year,
+      our fleet — including bus NVR-963 (fleet No. 800) — could be spotted along Taft Avenue near United Nations Avenue,
+      Ermita, Manila, navigating the busy thoroughfares alongside jeepneys under the Light Rail Line.
+    </p>
+    <p>
+      In <strong>May 2004</strong>, Napat Transit officially became <strong>Dimple Star Transport</strong>, embarking
+      on a new chapter in Philippine public transportation. Today we proudly connect Metro Manila to the scenic
+      province of Oriental Mindoro.
+    </p>
+
+    <div class="timeline" style="margin-top:28px;">
+      <div class="tl-item">
+        <div class="tl-dot">93</div>
+        <div class="tl-body">
+          <h4>1993 — Founded as Napat Transit</h4>
+          <p>Operations begin in Metro Manila, serving Taft Avenue corridor and surrounding routes.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">04</div>
+        <div class="tl-body">
+          <h4>2004 — Rebranded to Dimple Star Transport</h4>
+          <p>A new name, a renewed commitment to safe and comfortable travel for all Filipinos.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">Now</div>
+        <div class="tl-body">
+          <h4>Today — Expanding Routes</h4>
+          <p>Serving Mindoro Province with air-conditioned and ordinary buses across 50+ daily trips.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission & Vision -->
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="icon">🎯</div>
+      <h3>Our Mission</h3>
+      <p>To provide superior transport service to Metro Manila and Mindoro Province commuters — safe, timely, comfortable, and affordable for every Filipino.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🔭</div>
+      <h3>Our Vision</h3>
+      <p>To lead the bus transport industry through innovation and service excellence, setting the standard for the riding public across Luzon and beyond.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p>&copy; <strong>Dimple Star Transport</strong> — Block 1 Lot 10, Southpoint Subd., Brgy Banay-Banay, Cabuyao, Laguna &nbsp;|&nbsp; 0929 209 0712</p>
+</footer>
+
+<script src="data.js"></script>
+<script>renderNavAuth();</script>
+</body>
+</html>
