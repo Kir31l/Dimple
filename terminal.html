@@ -38,7 +38,18 @@
     <a href="book.html" class="book-btn">Book Now</a>
   </nav>
   <div class="nav-auth" id="nav-auth"></div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="terminal.html" class="active">Terminals</a>
+  <a href="routeschedule.html">Routes / Schedules</a>
+  <a href="contact.html">Contact</a>
+  <a href="book.html" class="book-btn">Book Now</a>
+</nav>
 
 <section class="page-hero">
   <h1>Our <span class="accent">Terminals</span></h1>
@@ -183,5 +194,14 @@
 
 <script src="data.js"></script>
 <script>renderNavAuth();</script>
+
+<script>
+function toggleMenu() {
+  var hb = document.getElementById('hamburger');
+  var mn = document.getElementById('mobile-nav');
+  if (hb) hb.classList.toggle('open');
+  if (mn) mn.classList.toggle('open');
+}
+</script>
 </body>
 </html>

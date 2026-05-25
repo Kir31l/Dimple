@@ -6,8 +6,8 @@
   <title>Contact Us — Dimple Star Transport</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .contact-layout { display:grid; grid-template-columns:1fr 420px; gap:28px; }
-    @media (max-width:860px) { .contact-layout { grid-template-columns:1fr; } }
+    .contact-layout { display:grid; grid-template-columns:380px 1fr; gap:28px; }
+    @media (max-width:860px) { .contact-layout { grid-template-columns:1fr; } .info-card { order: 2; } .form-card { order: 1; } }
     .info-card { background:var(--navy); color:var(--white); border-radius:14px; padding:36px; box-shadow:var(--shadow); }
     .info-card h3 { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; color:var(--gold-lt); }
     .info-item { display:flex; gap:16px; margin-bottom:24px; align-items:flex-start; }
@@ -35,7 +35,18 @@
     <a href="book.html" class="book-btn">Book Now</a>
   </nav>
   <div class="nav-auth" id="nav-auth"></div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="terminal.html">Terminals</a>
+  <a href="routeschedule.html">Routes / Schedules</a>
+  <a href="contact.html" class="active">Contact</a>
+  <a href="book.html" class="book-btn">Book Now</a>
+</nav>
 
 <section class="page-hero">
   <h1>Contact <span class="accent">Us</span></h1>
@@ -131,6 +142,15 @@
     document.getElementById('c-message').value = '';
   }
   renderNavAuth();
+</script>
+
+<script>
+function toggleMenu() {
+  var hb = document.getElementById('hamburger');
+  var mn = document.getElementById('mobile-nav');
+  if (hb) hb.classList.toggle('open');
+  if (mn) mn.classList.toggle('open');
+}
 </script>
 </body>
 </html>

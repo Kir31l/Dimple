@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .book-layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; }
-    @media (max-width: 900px) { .book-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 960px) { .book-layout { grid-template-columns: 1fr; } .summary-box { position: static; } }
 
     .step-bar { display:flex; gap:0; margin-bottom:32px; }
     .step { flex:1; text-align:center; padding:12px 8px; font-size:13px; font-weight:600; color:var(--gray); border-bottom:3px solid #EAEDF3; transition:.2s; }
@@ -81,7 +81,18 @@
     <a href="book.html" class="book-btn active">Book Now</a>
   </nav>
   <div class="nav-auth" id="nav-auth"></div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="terminal.html">Terminals</a>
+  <a href="routeschedule.html">Routes / Schedules</a>
+  <a href="contact.html">Contact</a>
+  <a href="book.html" class="book-btn">Book Now</a>
+</nav>
 
 <section class="page-hero">
   <h1>Book Your <span class="accent">Ticket</span></h1>
@@ -413,6 +424,15 @@
     }
   }
   renderNavAuth();
+</script>
+
+<script>
+function toggleMenu() {
+  var hb = document.getElementById('hamburger');
+  var mn = document.getElementById('mobile-nav');
+  if (hb) hb.classList.toggle('open');
+  if (mn) mn.classList.toggle('open');
+}
 </script>
 </body>
 </html>

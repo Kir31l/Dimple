@@ -21,6 +21,7 @@
         -45deg, transparent 0, transparent 24px,
         rgba(232,160,32,.07) 24px, rgba(232,160,32,.07) 25px
       );
+      pointer-events: none;
     }
     .hero-badge {
       display: inline-block;
@@ -38,7 +39,7 @@
     }
     .hero h1 {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(36px, 6vw, 64px);
+      font-size: clamp(32px, 6vw, 64px);
       font-weight: 800;
       line-height: 1.05;
       margin-bottom: 20px;
@@ -52,8 +53,12 @@
       margin: 0 auto 36px;
       position: relative;
     }
-    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .hero-actions {
+      display: flex; gap: 14px; justify-content: center;
+      flex-wrap: wrap; position: relative;
+    }
 
+    /* Quick search floats up, overlapping the hero bottom */
     .quick-search {
       background: var(--white);
       border-radius: 16px;
@@ -71,10 +76,19 @@
       color: var(--navy);
       margin-bottom: 20px;
     }
-    .qs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 14px; align-items: end; }
-    @media (max-width: 700px) { .qs-grid { grid-template-columns: 1fr 1fr; } }
+    .qs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 14px;
+      align-items: end;
+    }
 
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 48px; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
     .feature-card {
       background: var(--white);
       border-radius: 14px;
@@ -90,13 +104,33 @@
       font-size: 22px;
       margin-bottom: 16px;
     }
-    .feature-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
     .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
 
-    /* Quick search results */
     #search-results { margin-top: 24px; display: none; }
     #results-table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid #EAEDF3; }
     .no-results { text-align: center; color: var(--gray); padding: 32px; font-size: 15px; }
+
+    /* ---- responsive ---- */
+    @media (max-width: 700px) {
+      .hero { padding: 60px 20px 70px; }
+      .qs-grid { grid-template-columns: 1fr 1fr; }
+      .qs-grid .field:nth-child(3),
+      .qs-grid .field:nth-child(4) { grid-column: span 1; }
+      .quick-search { padding: 24px 20px; margin: -28px 14px 0; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 48px 14px 60px; }
+      .qs-grid { grid-template-columns: 1fr; }
+      .quick-search { margin: -20px 10px 0; }
+      .hero-actions .btn { width: 100%; max-width: 300px; }
+    }
   </style>
 </head>
 <body>
@@ -116,7 +150,18 @@
     <a href="book.html" class="book-btn">Book Now</a>
   </nav>
   <div class="nav-auth" id="nav-auth"></div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html" class="active">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="terminal.html">Terminals</a>
+  <a href="routeschedule.html">Routes / Schedules</a>
+  <a href="contact.html">Contact</a>
+  <a href="book.html" class="book-btn">Book Now</a>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -243,6 +288,15 @@
   }
 
   renderNavAuth();
+</script>
+
+<script>
+function toggleMenu() {
+  var hb = document.getElementById('hamburger');
+  var mn = document.getElementById('mobile-nav');
+  if (hb) hb.classList.toggle('open');
+  if (mn) mn.classList.toggle('open');
+}
 </script>
 </body>
 </html>
